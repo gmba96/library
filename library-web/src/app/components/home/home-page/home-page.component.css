@@ -1,0 +1,67 @@
+.background {
+    background-image: url('/img/home2.jpg'); 
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    filter: blur(3px);
+    -webkit-filter : brightness(50%); /* Chrome, Safari, Opera */
+    filter : brightness(45%);         /*rendre l'image plus sombre*/
+    height: 100vh;
+    width: 100vw;
+}
+
+.title {
+    color: rgb(200, 200, 200);
+    font-size: 10em;
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+    margin: 20px;
+    z-index: 2;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.title p {
+    margin: 0; 
+}
+  
+.title p + p {
+    margin-top: 3px;
+}
+
+.enter{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    bottom: 20vh;
+    left: 10vw;
+    margin: 20px;
+    z-index: 2;
+    margin-right: 60%;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out 0.5s forwards;
+}
+.enter p{
+    color : white;
+    font-size: 2em;
+    margin:0;
+}   
+.enter-button{
+    padding: 30px;
+    font-size: 2.5em;
+    color: rgb(30, 30, 30);
+    cursor: pointer;
+}
+.enter-button:hover {
+    background-color:rgb(222, 222, 222); /* Change la couleur du bouton au survol */
+}
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0; /* L'élément commence invisible */
+    }
+    100% {
+      opacity: 1; /* L'élément devient totalement visible */
+    }
+}
