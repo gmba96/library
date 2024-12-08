@@ -45,3 +45,7 @@ Thumbs.db
 node_modules/
 package-lock.json
 package.json
+
+#library-web
+node_modules/
+.angular/
