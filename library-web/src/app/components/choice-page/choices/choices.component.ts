@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-choices',
   imports: [],
   templateUrl: './choices.component.html',
-  styleUrl: './choices.component.css'
+  styleUrls: ['./choices.component.css']
 })
 export class ChoicesComponent {
   @Input() imgSrc!: string;
