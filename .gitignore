@@ -47,5 +47,5 @@ package-lock.json
 package.json
 
 #library-web
-node_modules/
-.angular/
+node_modules/*
+.angular/*
