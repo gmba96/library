@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChoicePageComponent } from './components/choice-page/choice-page.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ChoicePageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
