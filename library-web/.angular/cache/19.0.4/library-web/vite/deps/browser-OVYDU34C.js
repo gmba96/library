@@ -1,6 +1,6 @@
 import {
   DOCUMENT
-} from "./chunk-4PMWF6IT.js";
+} from "./chunk-5YQGLIFT.js";
 import {
   ANIMATION_MODULE_TYPE,
   Inject,
@@ -8,13 +8,15 @@ import {
   RendererFactory2,
   RuntimeError,
   ViewEncapsulation,
-  __objRest,
-  __spreadValues,
   inject,
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-LUHT2WFK.js";
+} from "./chunk-M2MF2DZT.js";
+import {
+  __objRest,
+  __spreadValues
+} from "./chunk-5TID76VL.js";
 
 // node_modules/@angular/animations/fesm2022/animations.mjs
 var AnimationMetadataType;
@@ -4519,4 +4521,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=browser-4KR4OXFR.js.map
+//# sourceMappingURL=browser-OVYDU34C.js.map

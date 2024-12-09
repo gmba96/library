@@ -14,10 +14,10 @@ export class Book implements IBook {
         return Object.assign(new Book(), this);
     }
 
-    fromJsan(BookJason:IBook):Book{
-        return Object.assign(new Book(),BookJason);
+    fromJson(bookJson: IBook): Book {
+        return Object.assign(new Book(), bookJson);
     }
-
+    
     toJson():IBook{
         const bookJson:IBook = Object.assign({},this);
         delete bookJson.id;

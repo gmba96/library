@@ -1,14 +1,75 @@
-<div *ngIf="data && data.length > 0; else noData">
-  <h1>Data from Backend</h1>
-  <ul>
-    <!-- Boucle sur les données -->
-    <li *ngFor="let item of data">
-      {{ item.name }} - {{ item.value }}
-    </li>
-  </ul>
-</div>
+<div class = search-page *ngIf="books.length > 0; else noBooks">
+    <h2>List of Books</h2>
+    <input type="checkbox" (change)="onCheckBoxChange($event)"/>
+    <div>
+      <form (ngSubmit)="onSearch()" #searchForm="ngForm" class = "search-page-form">
+        <div>
+          <label for="id">ID:</label>
+          <input type="number" id="id" name="id" [(ngModel)]="searchCriteria.id">
+        </div>
+        
+        <div>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" [(ngModel)]="searchCriteria.title">
+        </div>
+        
+        <div>
+          <label for="author">Author:</label>
+          <input type="text" id="author" name="author" [(ngModel)]="searchCriteria.author">
+        </div>
+        
+        <div>
+          <label for="rating">Rating:</label>
+          <input type="number" id="rating" name="rating" [(ngModel)]="searchCriteria.rating" step="0.1" min="0" max="5">
+        </div>
+        
+        <div>
+          <label for="year">Year:</label>
+          <input type="number" id="year" name="year" [(ngModel)]="searchCriteria.year">
+        </div>
+        
+        <div>
+          <label for="genre">Genre:</label>
+          <input type="text" id="genre" name="genre" [(ngModel)]="searchCriteria.genre">
+        </div>
+        
+        <div>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+    
+    <div class="table-book">
+        <table >
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Rating</th>
+                <th>Year</th>
+                <th>Genre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Boucle pour chaque livre -->
+              <tr *ngFor="let book of books">
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.rating }}</td>
+                <td>{{ book.year }}</td>
+                <td>{{ book.genre }}</td>
+              </tr>
+            </tbody>
+          </table>
 
-<!-- Message si aucune donnée n'est disponible -->
-<ng-template #noData>
-  <p>No data available.</p>
-</ng-template>
+    </div>
+    
+  </div>
+  
+  <!-- Message si 0 livre -->
+  <ng-template #noBooks>
+    <p>No books available.</p>
+  </ng-template>
+  
