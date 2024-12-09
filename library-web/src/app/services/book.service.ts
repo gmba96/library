@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService {
-  private baseUrl: string = 'http://localhost:3000/api/books'; // Assurez-vous que cette URL est correcte
+export class BookService {
+  private apiUrl = '/api/books'; // URL relative grâce au proxy
 
   constructor(private http: HttpClient) {}
 
   getBooks(): Observable<any> {
-    return this.http.get(this.baseUrl);
+    return this.http.get<any>(this.apiUrl);
   }
 }

@@ -1,2 +1,14 @@
-<p>search-page works!</p>
-<button (click) = "getBooks()">Get books</button>
+<div *ngIf="data && data.length > 0; else noData">
+  <h1>Data from Backend</h1>
+  <ul>
+    <!-- Boucle sur les données -->
+    <li *ngFor="let item of data">
+      {{ item.name }} - {{ item.value }}
+    </li>
+  </ul>
+</div>
+
+<!-- Message si aucune donnée n'est disponible -->
+<ng-template #noData>
+  <p>No data available.</p>
+</ng-template>
