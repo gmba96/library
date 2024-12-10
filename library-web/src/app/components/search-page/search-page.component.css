@@ -6,8 +6,6 @@
   overflow-y: auto;
 }
 
-
-
 /* Styles pour les champs du formulaire */
 .search-page-form{
   display: flex ;
@@ -18,7 +16,6 @@
 
 .select{
   display: flex;
-
   margin-right: 10px;
 }
 
@@ -26,7 +23,6 @@
   display: block;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  margin-bottom: 5px;
   color: #555;
 }
 
@@ -40,6 +36,7 @@
   box-sizing: border-box;
 }
 
+/*input selectionné*/
 .search-page form input:focus {
   border-color: #4CAF50;
   outline: none;
@@ -47,8 +44,7 @@
 }
 
 /* Styles pour le bouton */
-.search-page form button {
-  width: 100%;
+button {
   padding: 10px;
   font-size: 16px;
   color: white;
@@ -59,92 +55,120 @@
   transition: background-color 0.3s;
 }
 
-.search-page form button:hover {
+button:hover {
   background-color: #45a049;
 }
 
+.delete-button {
+  background-color: #f44336;
+}
+.delete-button:hover {
+  background-color: #da190b;
+}
 
 .table-book {
-    margin: 20px auto;
-    width: 80%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-  }
-  
-  /* Style du tableau */
-  table {
-    width: 100%;
-    font-family: 'Arial', sans-serif;
-    font-size: 16px;
-    background-color: #fff;
-  }
-  
-  /* Style pour l'en-tête du tableau */
-  thead {
-    background-color: #4caf50;
-    color: white;
-    text-align: left;
-  }
-  
-  thead th {
-    padding: 10px;
-  }
-  
-  /* Style pour le corps du tableau */
-  tbody tr {
-    border-bottom: 1px solid #ff0000;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  tbody tr:hover {
-    background-color: #efefef;
-  }
-  
-  tbody td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  /* Style pour les cellules */
-  th, td {
-    text-align: left;
-    padding: 10px;
-    word-wrap: break-word;
-  }
-  
-  /* Style pour le message "No books available" */
-  p {
-    text-align: center;
-    font-size: 18px;
-    color: #666;
-    margin-top: 20px;
-  }
-  
-  h2 {
-    font-size: 3em;
-    color: #4a8e3d;
-    text-align: center;
-    margin-top: 20px;
-  }
+}
 
-  @media (max-width: 700px) {
-    .search-page{
-      width: 100vw;
-      overflow-x: auto;
-     }
-     h2{
-        font-size: 2em;
-     }
-  }
+/* Style du tableau */
+table {
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  background-color: #fff;
+}
 
-  /*rating*/
+/* Style pour l'en-tête du tableau */
+thead {
+  background-color: #4caf50;
+  color: white;
+  text-align: left;
+}
 
-  .rating {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  
+thead th {
+  padding: 10px;
+}
+
+/* Style pour le corps du tableau */
+tbody tr {
+  border-bottom: 1px solid #ff0000;
+  transition: background-color 0.2s ease-in-out;
+}
+
+tbody tr:hover {
+  background-color: #efefef;
+}
+
+tbody td {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Style pour les cellules */
+th, td {
+  text-align: left;
+  padding: 10px;
+  word-wrap: break-word;
+}
+
+/* Style pour le message "No books available" */
+p {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 3em;
+  color: #4a8e3d;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .search-page{
+    width: 100vw;
+    overflow-x: auto;
+    }
+    h2{
+      font-size: 2em;
+    }
+}
+
+/*rating*/
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/*button back*/
+.button-back{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+
+/*checkbox*/
+
+.order-by{
+  margin-top: 3vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2vw;
+  color: #343434;
+}

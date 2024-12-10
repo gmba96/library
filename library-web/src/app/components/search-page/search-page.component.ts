@@ -1,12 +1,15 @@
-import { Component, OnInit, NgModule} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { CommonModule } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-search-page',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.css'
 })
@@ -15,7 +18,7 @@ export class SearchPageComponent implements OnInit {
   
   // configuration de la recherche
   books: Book[] = []; // Liste initiale des livres
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService, private router: Router) {}
   searchCriteria = {
     id: null,
     title: '',
@@ -25,6 +28,7 @@ export class SearchPageComponent implements OnInit {
     year: null,
     genre: ''
   };
+
 
   ngOnInit(): void {
     // Appeler le service pour obtenir les livres lors de l'initialisation
@@ -38,23 +42,34 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-
-  orderByYear(): void {
+  
+  //trier les livres par année
+  orderByYear(event: any): void {
+    if(event.target.checked){
+      this.orderByYearDesc();
+    }
+    else{
+      this.resetBooks();
+    }
+  }
+  orderByYearDesc(): void {
     this.books = [...this.books].sort((a, b) => b.year - a.year);
   }
-  
   resetBooks(): void {
     this.books = [...this.books].sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
 
   }
 
-  onCheckBoxChange(event: any): void {
+  orderByRating(event: any): void {
     if(event.target.checked){
-      this.orderByYear();
+      this.orderByRatingDesc();
     }
     else{
       this.resetBooks();
     }
+  }
+  orderByRatingDesc(): void {
+    this.books = [...this.books].sort((a, b) => b.rating - a.rating);
   }
 
   onSearch(): void {
@@ -62,15 +77,16 @@ export class SearchPageComponent implements OnInit {
       id: (value: any) => this.searchById(value),
       title: (value: any) => this.searchByTitle(value),
       author: (value: any) => this.searchByAuthor(value),
-      year: (value: any) => this.searchByYear(value),
       genre: (value: any) => this.searchByGenre(value),
+      year: (value: any) => this.searchByYear(value),
+      rating: (value: any) => this.searchByRating(value),
     };
   
     // Filtrer les champs remplis
     const filledFields = Object.entries(this.searchCriteria).filter(
-      ([key, value]) => key !== 'ratingComparison' && value && (typeof value === 'string' ? value.trim() : true)
+      ([key, value]) => key !== 'ratingComparison' && value !== null && value !== ''
     );
-  
+
     // Aucun champ rempli : réinitialiser la liste des livres
     if (filledFields.length === 0) {
       this.ngOnInit();
@@ -78,13 +94,9 @@ export class SearchPageComponent implements OnInit {
     }
   
     // Si un seul champ est rempli : appel direct
-    if (filledFields.length === 1) {
+    else if (filledFields.length === 1) {
       const [key, value] = filledFields[0];
-      if (key === 'rating') {
-        this.searchByRating(Number(value));
-      } else {
-        searchFields[key]?.(value);
-      }
+      searchFields[key]?.(value);
       return;
     }
   
@@ -97,48 +109,69 @@ export class SearchPageComponent implements OnInit {
       return;
     }
 
-  
-    // Cas spécifique : combinaisons de champs
-    if (searchParams['genre'] && searchParams['year']) {
-      this.searchByGenreAndYear(searchParams['genre'], searchParams['year']);
-      return;
-    }
-  
-    if (searchParams['genre'] && searchParams['rating']) {
-      if (this.searchCriteria.ratingComparison === 'sup'){
-        this.searchByGenreAndRatingSup(searchParams['genre'],searchParams['rating']);
+    else if (filledFields.length === 2){
+      // Cas spécifique : combinaisons de champs
+      if (searchParams['genre'] && searchParams['year']) {
+        this.searchByGenreAndYear(searchParams['genre'], searchParams['year']);
+        return;
       }
-      else{
-        this.searchByGenreAndRatingInf(searchParams['genre'], searchParams['rating']);
+    
+      else if (searchParams['genre'] && searchParams['rating']) {
+        if (this.searchCriteria.ratingComparison === 'sup'){
+          this.searchByGenreAndRatingSup(searchParams['genre'],searchParams['rating']);
+        }
+        else{
+          this.searchByGenreAndRatingInf(searchParams['genre'], searchParams['rating']);
+        }
+        return;
       }
-      return;
-    }
-  
-    if (searchParams['author'] && searchParams['year']) {
-      this.searchByAuthorAndYear(searchParams['author'], searchParams['year']);
-      return;
-    }
-  
-    if (searchParams['author'] && searchParams['rating']) {
-      if (this.searchCriteria.ratingComparison === 'sup'){
-        this.searchByAuthorAndRatingSup(searchParams['author'], searchParams['rating']);
-      }else{
-        this.searchByAuthorAndRatingInf(searchParams['author'], searchParams['rating']);
+    
+      else if (searchParams['author'] && searchParams['year']) {
+        this.searchByAuthorAndYear(searchParams['author'], searchParams['year']);
+        return;
       }
-      return;
-    }
-  
-    if (searchParams['year'] && searchParams['rating']) {
-      if(this.searchCriteria.ratingComparison === 'sup'){
-        this.searchByYearAndRatingSup(searchParams['year'], searchParams['rating']);
-      }else{
-        this.searchByYearAndRatingInf(searchParams['year'], searchParams['rating']);
+    
+      else if (searchParams['author'] && searchParams['rating']) {
+        if (this.searchCriteria.ratingComparison === 'sup'){
+          this.searchByAuthorAndRatingSup(searchParams['author'], searchParams['rating']);
+        }else{
+          this.searchByAuthorAndRatingInf(searchParams['author'], searchParams['rating']);
+        }
+        return;
+      }
+    
+      else if (searchParams['year'] && searchParams['rating']) {
+        if(this.searchCriteria.ratingComparison === 'sup'){
+          this.searchByYearAndRatingSup(searchParams['year'], searchParams['rating']);
+        }else{
+          this.searchByYearAndRatingInf(searchParams['year'], searchParams['rating']);
+        }
       }
     }
-  
-    console.warn('Aucune recherche spécifique pour cette combinaison de champs.');
+
+    else if(filledFields.length === 3){
+      if(searchParams['genre']  && searchParams['rating'] && searchParams['year']){
+        if(this.searchCriteria.ratingComparison === 'sup'){
+          this.searchByGenreAndYearAndRatingSup(searchParams['genre'], searchParams['year'], searchParams['rating']);
+        }else{
+          this.searchByGenreAndYearAndRatingInf(searchParams['genre'], searchParams['year'], searchParams['rating']);
+        }
+      }
+      
+      else if(searchParams['author'] && searchParams['year'] && searchParams['rating']){
+        if(this.searchCriteria.ratingComparison === 'sup'){
+          this.searchByAuthorAndYearAndRatingSup(searchParams['author'], searchParams['year'], searchParams['rating']);
+        }else{
+          this.searchByAuthorAndYearAndRatingInf(searchParams['author'], searchParams['year'], searchParams['rating']);
+        }
+      }
+    } 
+    else{
+      console.warn('Aucune recherche spécifique pour cette combinaison de champs.');
+    }
   }
   
+//---------------------------------------rechercher un livre----------------------------------------------
 
   searchById(id: number): void {
     this.bookService.getBookById(id).subscribe({
@@ -182,7 +215,7 @@ export class SearchPageComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erreur lors de la récupération des données :', err);
-        } 
+        }   
      });
     }else{
       this.bookService.getBooksByRatingInf(rating).subscribe({
@@ -357,5 +390,57 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  //---------------------------------------modifier un livre----------------------------------------------
 
+  editingBookId: number | null = null; // Variable pour suivre l'ID du livre en cours d'édition
+
+  updateBook(id: number): void {
+    this.editingBookId = id; // Définir l'ID du livre en cours d'édition
+  }
+
+  saveBook(book: Book): void {
+    this.bookService.updateBook(book).subscribe({
+      next: () => {
+        this.ngOnInit(); // Recharger les livres
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du livre :', err);
+      }
+    });
+  }
+  cancelEdit(): void {
+    this.editingBookId = null; // Annuler l'édition
+  }
+
+  //---------------------------------------supprimer un livre----------------------------------------------
+
+  confirmDelete(bookId: number): void {
+    const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');
+    if (confirmed) {
+      this.deleteBook(bookId);
+    }
+  }
+  deleteBook(id: number): void {
+    this.bookService.deleteBook(id).subscribe({
+      next: () => {
+        this.ngOnInit();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression du livre :', err);
+      }
+    });
+  }
+
+  //---------------------------------------naviguer entre les pages----------------------------------------------
+  navigateToSearchPage() {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/home/choice/search']);
+    });
+  }
+  navigateToHomePage() {
+    this.router.navigate(['/home']);
+  }
+  navigateToChoicePage() {
+    this.router.navigate(['/home/choice']);
+  }
 }

@@ -127,4 +127,23 @@ export class BookService {
     );
   }
 
+  // suppression d'un livre
+  deleteBook(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/id/${id}`);
+  }
+
+  // modification d'un livre
+  updateBook(book: Book): Observable<any> {
+    return this.http.put(`${this.apiUrl}/`, book.toJson());
+  }
+
+  // ajout d'un livre
+  addBook(book: any): void {
+    this.http.post(`${this.apiUrl}/`, book, {
+      headers: { 'Content-Type': 'application/json' }
+    }).subscribe({
+      next: (response) => console.log('Livre ajouté avec succès:', response),
+      error: (err) => console.error('Erreur lors de l\'ajout du livre:', err)
+    });
+  }  
 }

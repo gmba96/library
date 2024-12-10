@@ -1,1 +1,17 @@
-<p>add-page works!</p>
+
+
+<div class="add-page">
+  <h2>Add a Book</h2>
+  <div class="add-inputs">
+    <input type="text" placeholder="Title" [(ngModel)]="book.title" />
+    <input type="text" placeholder="Author" [(ngModel)]="book.author" />
+    <input type="number" placeholder="Rating" [(ngModel)]="book.rating" />
+    <input type="number" placeholder="Year" [(ngModel)]="book.year" />
+    <input type="text" placeholder="Genre" [(ngModel)]="book.genre" />    
+  </div>
+  <button 
+      [disabled]="!book.title || !book.author || !book.rating || !book.year || !book.genre" 
+      (click)="addBook(book)">
+      Add
+  </button>
+</div>

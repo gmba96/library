@@ -1,13 +1,12 @@
 <div class = search-page *ngIf="books.length > 0; else noBooks">
     <h2>List of Books</h2>
-    <input type="checkbox" (change)="onCheckBoxChange($event)"/>
+    <!-- formulaire de recherche -->
     <div>
-      <form (ngSubmit)="onSearch()" #searchForm="ngForm" class = "search-page-form">
+      <form  class = "search-page-form" >
         <div>
           <label for="id">ID:</label>
           <input type="number" id="id" name="id" [(ngModel)]="searchCriteria.id">
         </div>
-        
         <div>
           <label for="title">Title:</label>
           <input type="text" id="title" name="title" [(ngModel)]="searchCriteria.title">
@@ -17,70 +16,103 @@
           <label for="author">Author:</label>
           <input type="text" id="author" name="author" [(ngModel)]="searchCriteria.author">
         </div>
-        
         <div>
-          <div>
-            <label for="rating">Rating:</label>
-            <div class="select">
-              <input type="number" id="rating" name="rating" [(ngModel)]="searchCriteria.rating" step="0.1" min="0" max="5">
-              <select [(ngModel)]="searchCriteria.ratingComparison" name="ratingComparison">
-                <option value="sup">sup</option>
-                <option value="inf">inf</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        
-        <div>
+          <label for="genre">Genre:</label>
+          <input type="text" id="genre" name="genre" [(ngModel)]="searchCriteria.genre">
         </div>
 
         <div>
           <label for="year">Year:</label>
           <input type="number" id="year" name="year" [(ngModel)]="searchCriteria.year">
         </div>
-        
+        <!-- ce champs rating avec une liste déroulante inf et sup -->
         <div>
-          <label for="genre">Genre:</label>
-          <input type="text" id="genre" name="genre" [(ngModel)]="searchCriteria.genre">
-        </div>
-        
-        <div>
-          <button type="submit">Search</button>
+          <label for="rating">Rating:</label>
+          <div class="select">
+            <input type="number" id="rating" name="rating" [(ngModel)]="searchCriteria.rating" step="0.1" min="0" max="5">
+            <select [(ngModel)]="searchCriteria.ratingComparison" name="ratingComparison">
+              <option value="sup">sup</option>
+              <option value="inf">inf</option>
+            </select>
+          </div>
         </div>
       </form>
     </div>
     
-    <div class="table-book">
-        <table >
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Rating</th>
-                <th>Year</th>
-                <th>Genre</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Boucle pour chaque livre -->
-              <tr *ngFor="let book of books">
-                <td>{{ book.id }}</td>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.rating }}</td>
-                <td>{{ book.year }}</td>
-                <td>{{ book.genre }}</td>
-              </tr>
-            </tbody>
-          </table>
 
+    <!-- les checkbox est le button chercher -->
+    <div class="order-by">
+      <div class="checkbox-order-year">
+        <label for="orderByYear">Order by year</label>
+        <input type="checkbox" (change)="orderByYear($event)"/>
+      </div>
+      <div class="checkbox-order-rating">
+        <label for="orderByRating">Order by rating</label>
+        <input type="checkbox" (change)="orderByRating($event)"/>
+      </div>
+      <div>
+        <button (click)="onSearch()" >Search</button>
+      </div>
     </div>
-    
+
+
+  <!-- la table de résultat -->
+  <div class="table-book">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Rating</th>
+          <th>Year</th>
+          <th>Genre</th>
+          <th>Delete</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Boucle pour chaque livre -->
+        <tr *ngFor="let book of books">
+          <td>{{ book.id }}</td>
+          <td>
+            <span *ngIf="editingBookId !== book.id">{{ book.title }}</span>
+            <input *ngIf="editingBookId === book.id" [(ngModel)]="book.title" name="title-{{book.id}}" />
+          </td>
+          <td>
+            <span *ngIf="editingBookId !== book.id">{{ book.author }}</span>
+            <input *ngIf="editingBookId === book.id" [(ngModel)]="book.author" name="author-{{book.id}}" />
+          </td>
+          <td>
+            <span *ngIf="editingBookId !== book.id">{{ book.rating }}</span>
+            <input *ngIf="editingBookId === book.id" [(ngModel)]="book.rating" type="number" step="0.1" min="0" max="5" name="rating-{{book.id}}" />
+          </td>
+          <td>
+            <span *ngIf="editingBookId !== book.id">{{ book.year }}</span>
+            <input *ngIf="editingBookId === book.id" [(ngModel)]="book.year" type="number" name="year-{{book.id}}" />
+          </td>
+          <td>
+            <span *ngIf="editingBookId !== book.id">{{ book.genre }}</span>
+            <input *ngIf="editingBookId === book.id" [(ngModel)]="book.genre" name="genre-{{book.id}}" />
+          </td>
+          <td><button class="delete-button" (click)="confirmDelete(book.id!)">Delete</button></td>
+          <td>
+            <button *ngIf="editingBookId !== book.id" class="update-button" (click)="updateBook(book.id!)">Update</button>
+            <button *ngIf="editingBookId === book.id" class="save-button" (click)="saveBook(book)">Save</button>
+            <button *ngIf="editingBookId === book.id" class="cancel-button" (click)="cancelEdit()">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
-  <!-- Message si 0 livre -->
-  <ng-template #noBooks>
-    <p>No books available.</p>
-  </ng-template>
-  
+</div>
+
+<!-- Message si 0 livre -->
+<ng-template #noBooks>
+  <p>No books available.</p>
+  <div class="button-back">
+    <button (click)="navigateToHomePage()"> Revenir sur la page Home</button>
+    <button (click)="navigateToChoicePage()"> Revenir sur la page Choice</button>
+    <button (click)="navigateToSearchPage()"> Revenir sur la page Search</button>
+  </div>
+</ng-template>

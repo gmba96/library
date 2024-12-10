@@ -1,0 +1,55 @@
+.add-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #dcdcdc;
+    height: 100vh;
+    gap: 3vh;
+}
+
+h2{
+    font-size: 3em;
+    color: #4a8e3d;
+    text-align: center; 
+    margin-top: 20px;
+}
+
+.add-inputs {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
+button {
+    width: 20%;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}

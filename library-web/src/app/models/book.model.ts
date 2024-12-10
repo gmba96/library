@@ -5,10 +5,9 @@ export class Book implements IBook {
     id?: number;
     title!: string;
     author!: string;
-    rating!: number;
-    year!: number;
     genre!: string;
-    authorId!: number;
+    year!: number;
+    rating!: number;
     
     copyBook(): Book {
         return Object.assign(new Book(), this);
@@ -20,9 +19,7 @@ export class Book implements IBook {
     
     toJson():IBook{
         const bookJson:IBook = Object.assign({},this);
-        delete bookJson.id;
+        console.log(bookJson);
         return bookJson;
     }
 }
-
-

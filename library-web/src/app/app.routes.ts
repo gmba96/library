@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { ChoicePageComponent } from './components/choice-page/choice-page.component';
-import { SearchPageComponent } from '../app/components/search-page/search-page.component';
+import { SearchPageComponent } from './components/search-page/search-page.component';
 import { VisualisationPageComponent } from './components/visualisation-page/visualisation-page.component';
 import { AddPageComponent } from './components/add-page/add-page.component';
 
