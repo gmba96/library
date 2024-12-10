@@ -19,10 +19,21 @@
         </div>
         
         <div>
-          <label for="rating">Rating:</label>
-          <input type="number" id="rating" name="rating" [(ngModel)]="searchCriteria.rating" step="0.1" min="0" max="5">
+          <div>
+            <label for="rating">Rating:</label>
+            <div class="select">
+              <input type="number" id="rating" name="rating" [(ngModel)]="searchCriteria.rating" step="0.1" min="0" max="5">
+              <select [(ngModel)]="searchCriteria.ratingComparison" name="ratingComparison">
+                <option value="sup">sup</option>
+                <option value="inf">inf</option>
+              </select>
+            </div>
+          </div>
         </div>
         
+        <div>
+        </div>
+
         <div>
           <label for="year">Year:</label>
           <input type="number" id="year" name="year" [(ngModel)]="searchCriteria.year">

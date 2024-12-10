@@ -16,8 +16,10 @@
   align-items: center;
 }
 
-.search-page form div {
-  margin-bottom: 15px;
+.select{
+  display: flex;
+
+  margin-right: 10px;
 }
 
 .search-page form label {
@@ -136,3 +138,13 @@
         font-size: 2em;
      }
   }
+
+  /*rating*/
+
+  .rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
