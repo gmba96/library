@@ -54,18 +54,24 @@ library-web/
   │   ├── app/
   │   │   ├── components/
   │   │   │   ├── search-page/
-  │   │   │   │   ├── search-page.component.ts
-  │   │   │   │   ├── search-page.component.html
-  │   │   │   │   └── search-page.component.css
+  │   │   │   │   ├── search-page.component
   │   │   │   ├── visualisation-page/
-  │   │   │   │   ├── visualisation-page.component.ts
-  │   │   │   │   ├── visualisation-page.component.html
-  │   │   │   │   └── visualisation-page.component.css
+  │   │   │   │   ├── visualisation-page.component
+  │   │   │   ├── add-page/
+  │   │   │   │   ├── home-page.component
+  │   │   │   ├── add-page/
+  │   │   │   │   ├── add-page.component
+  │   │   │   ├── choice-page/
+  │   │   │   │   ├── choice-page.component
+  │   │   │   │   ├── choices/
+  │   │   │   │   │   ├── choices.component
+  │   │   ├── interface/
+  │   │   │   └── interface.service.ts
+  │   │   ├── models/
+  │   │   │   └── models.service.ts
   │   │   ├── services/
   │   │   │   └── book.service.ts
-  │   │   ├── app.component.ts
-  │   │   ├── app.module.ts
-  │   ├── assets/
+  │   │   ├── app.component
   │   ├── index.html
   │   ├── main.ts
   │   ├── styles.css
