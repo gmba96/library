@@ -15,30 +15,55 @@ Une fois le serveur démarré, ouvrez votre navigateur et accédez à http://loc
 ## Structure du projet
 
 library-web/
+
 ├── src/
+
 │   ├── app/
+
 │   │   ├── add-page/
+
 │   │   │   ├── add-page.component.html
+
 │   │   │   ├── add-page.component.ts
+
 │   │   │   └── add-page.component.css
+
 │   │   ├── search-page/
+
 │   │   │   ├── search-page.component.html
+
 │   │   │   ├── search-page.component.ts
+
 │   │   │   └── search-page.component.css
+
 │   │   ├── visualisation-page/
+
 │   │   │   ├── visualisation-page.component.html
+
 │   │   │   ├── visualisation-page.component.ts
+
 │   │   │   └── visualisation-page.component.css
+
 │   │   ├── app.component.html
+
 │   │   ├── app.component.ts
+
 │   │   └── app.component.css
+
 │   ├── assets/
+
 │   ├── environments/
+
 │   ├── index.html
+
 │   ├── main.ts
-│   └── [styles.css](http://_vscodecontentref_/0)
+
+│   └── [styles.css]
+
 ├── angular.json
-├── [package.json](http://_vscodecontentref_/1)
+
+├── [package.json]
+
 └── README.md
 
 
