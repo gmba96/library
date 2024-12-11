@@ -4,12 +4,10 @@ import { CommonModule } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-
 
 @Component({
   selector: 'app-search-page',
-  imports: [CommonModule, FormsModule, ],
+  imports: [CommonModule, FormsModule,],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.css'
 })
@@ -17,8 +15,10 @@ import { TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 export class SearchPageComponent implements OnInit {
   
   // configuration de la recherche
-  books: Book[] = []; // Liste initiale des livres
+  books: Book[] = []; 
   constructor(private bookService: BookService, private router: Router) {}
+
+  // définit les critères de recherche 
   searchCriteria = {
     id: null,
     title: '',
@@ -43,7 +43,8 @@ export class SearchPageComponent implements OnInit {
   }
 
   
-  //trier les livres par année
+  // ---------------------------------------filtrer les livres----------------------------------------------
+  //par année
   orderByYear(event: any): void {
     if(event.target.checked){
       this.orderByYearDesc();
@@ -52,14 +53,11 @@ export class SearchPageComponent implements OnInit {
       this.resetBooks();
     }
   }
+  // par année descendante
   orderByYearDesc(): void {
     this.books = [...this.books].sort((a, b) => b.year - a.year);
   }
-  resetBooks(): void {
-    this.books = [...this.books].sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
-
-  }
-
+  //par note
   orderByRating(event: any): void {
     if(event.target.checked){
       this.orderByRatingDesc();
@@ -68,9 +66,16 @@ export class SearchPageComponent implements OnInit {
       this.resetBooks();
     }
   }
+  // par note descendante
   orderByRatingDesc(): void {
     this.books = [...this.books].sort((a, b) => b.rating - a.rating);
   }
+  // revenir à l'ordre initial
+  resetBooks(): void {
+    this.books = [...this.books].sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
+  }
+
+  // ---------------------------------------rechercher un livre----------------------------------------------
 
   onSearch(): void {
     const searchFields: { [key: string]: (value: any) => void } = {
@@ -103,12 +108,16 @@ export class SearchPageComponent implements OnInit {
     // Gestion combinée de plusieurs champs
     const searchParams: { [key: string]: any } = Object.fromEntries(filledFields);
   
-    // Cas spécifique : recherche par ID prioritaire
+    // Cas spécifique : recherche par ID prioritaire et title
     if (searchParams['id']) {
       this.searchById(searchParams['id']);
       return;
     }
-
+    else if (searchParams['title']) {
+      this.searchByTitle(searchParams['title']);
+      return;
+    }
+//---------------------------si 2 champs on été rempli----------------------------------------------
     else if (filledFields.length === 2){
       // Cas spécifique : combinaisons de champs
       if (searchParams['genre'] && searchParams['year']) {
@@ -149,6 +158,7 @@ export class SearchPageComponent implements OnInit {
       }
     }
 
+//---------------------------si 3 champs on été rempli----------------------------------------------
     else if(filledFields.length === 3){
       if(searchParams['genre']  && searchParams['rating'] && searchParams['year']){
         if(this.searchCriteria.ratingComparison === 'sup'){
@@ -165,14 +175,26 @@ export class SearchPageComponent implements OnInit {
           this.searchByAuthorAndYearAndRatingInf(searchParams['author'], searchParams['year'], searchParams['rating']);
         }
       }
-    } 
+    }
+    else if(filledFields.length > 3){
+      if ((searchParams['author'] && searchParams['genre'] && searchParams['year'] && searchParams['rating'])){
+        if(this.searchCriteria.ratingComparison === 'sup'){
+          this.searchByAuthorAndGenreAndYearAndRatingSup(searchParams['author'], searchParams['genre'], searchParams['year'], searchParams['rating']);
+        }else{
+          this.searchByAuthorAndGenreAndYearAndRatingInf(searchParams['author'], searchParams['genre'], searchParams['year'], searchParams['rating']);
+        }
+      }
+    }
+
+    // Aucune recherche spécifique pour cette combinaison de champs
     else{
       console.warn('Aucune recherche spécifique pour cette combinaison de champs.');
     }
   }
   
-//---------------------------------------rechercher un livre----------------------------------------------
+//--------------------------------------- les fonction pour rechercher un livre----------------------------------------------
 
+//par id
   searchById(id: number): void {
     this.bookService.getBookById(id).subscribe({
       next: (response) => {
@@ -184,6 +206,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+//par titre
   searchByTitle(title: string): void {
     const encodedTitle = encodeURIComponent(title.trim());
     this.bookService.getBookByTitle(encodedTitle).subscribe({
@@ -195,6 +218,8 @@ export class SearchPageComponent implements OnInit {
       }
     });
   }
+
+  //par auteur
   searchByAuthor(author: string): void {
     const encodedAuthor = encodeURIComponent(author.trim());
     this.bookService.getBooksByAuthor(encodedAuthor).subscribe({
@@ -206,7 +231,8 @@ export class SearchPageComponent implements OnInit {
       }
     });
   }
-
+  
+  //par note
   searchByRating(rating: number): void {
     if (this.searchCriteria.ratingComparison === 'sup'){
       this.bookService.getBooksByRatingSup(rating).subscribe({
@@ -229,6 +255,7 @@ export class SearchPageComponent implements OnInit {
     }
   }
 
+  //par année
   searchByYear(year: number): void {
     this.bookService.getBooksByYear(year).subscribe({
       next: (response) => {
@@ -240,6 +267,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  //par genre
   searchByGenre(genre: string): void {
     const encodedGenre = encodeURIComponent(genre.trim());
     this.bookService.getBooksByGenre(encodedGenre).subscribe({
@@ -252,8 +280,9 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-  // méthodes pour les recherche par 2 critères
+  //------------------------------méthodes pour les recherche par 2 critères------------------------------------
 
+  // année et genre
   searchByGenreAndYear(genre: string, year: number): void {
     const encodedGenre = encodeURIComponent(genre.trim());
     this.bookService.getBooksByGenreAndYear(year, encodedGenre).subscribe({
@@ -265,6 +294,8 @@ export class SearchPageComponent implements OnInit {
       }
     });
   }
+
+  // genre et note
   searchByGenreAndRatingSup( genre: string, rating: number): void {
     const encodedGenre = encodeURIComponent(genre.trim());
     this.bookService.getBooksByGenreAndRatingSup(encodedGenre, rating).subscribe({
@@ -287,6 +318,8 @@ export class SearchPageComponent implements OnInit {
       }
     });
   }
+
+  // auteur et année
   searchByAuthorAndYear(author: string, year: number): void {
     const encodedAuthor = encodeURIComponent(author.trim());
     this.bookService.getBooksByAuthorAndYear(encodedAuthor, year).subscribe({
@@ -298,6 +331,8 @@ export class SearchPageComponent implements OnInit {
       }
     });
   }
+
+  // auteur et note
   searchByAuthorAndRatingSup(author: string, rating: number): void {
     const encodedAuthor = encodeURIComponent(author.trim());
     this.bookService.getBooksByAuthorAndRatingSup(encodedAuthor, rating).subscribe({
@@ -321,6 +356,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  // année et note
   searchByYearAndRatingSup(year: number, rating: number): void {
     this.bookService.getBooksByYearAndRatingSup(year, rating).subscribe({
       next: (response) => {
@@ -342,8 +378,9 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-  // méthode pour la recherche par 3 critères
+  //---------------------------méthode pour la recherche par 3 critères--------------------------------------------
 
+  // genre anée et note
   searchByGenreAndYearAndRatingSup(genre: string, year: number, rating: number): void {
     const encodedGenre = encodeURIComponent(genre.trim());
     this.bookService.getBooksByGenreAndYearAndRatingSup(encodedGenre, year, rating).subscribe({
@@ -367,6 +404,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
+  // auteur année et note
   searchByAuthorAndYearAndRatingSup(author: string, year: number, rating: number): void {
     const encodedAuthor = encodeURIComponent(author.trim());
     this.bookService.getBooksByAuthorAndYearAndRatingSup(encodedAuthor, year, rating).subscribe({
@@ -383,6 +421,34 @@ export class SearchPageComponent implements OnInit {
     this.bookService.getBooksByAuthorAndYearAndRatingInf(encodedAuthor, year, rating).subscribe({
       next: (response) => {
         this.books = response; // Stocker les livres dans la variable
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des données :', err);
+      }
+    });
+  }
+
+  //---------------------------méthode pour la recherche par 4 critères--------------------------------------------
+
+  searchByAuthorAndGenreAndYearAndRatingSup(author: string, genre: string, year: number, rating: number): void {
+    const encodedAuthor = encodeURIComponent(author.trim());
+    const encodedGenre = encodeURIComponent(genre.trim());
+    this.bookService.getByAuthorAndGenreAndYearAndRatingSup(encodedAuthor, encodedGenre, year, rating).subscribe({
+      next: (response) => {
+        this.books = response; 
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des données :', err);
+      }
+    });
+  }
+
+  searchByAuthorAndGenreAndYearAndRatingInf(author: string, genre: string, year: number, rating: number): void {
+    const encodedAuthor = encodeURIComponent(author.trim());
+    const encodedGenre = encodeURIComponent(genre.trim());
+    this.bookService.getByAuthorAndGenreAndYearAndRatingInf(encodedAuthor, encodedGenre, year, rating).subscribe({
+      next: (response) => {
+        this.books = response; 
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des données :', err);
@@ -432,6 +498,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   //---------------------------------------naviguer entre les pages----------------------------------------------
+  
   navigateToSearchPage() {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/home/choice/search']);

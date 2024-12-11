@@ -9,9 +9,8 @@ export class Book implements IBook {
     year!: number;
     rating!: number;
     
-    copyBook(): Book {
-        return Object.assign(new Book(), this);
-    }
+    
+//---------------------- mothod to convert json to book object------------------------------
 
     fromJson(bookJson: IBook): Book {
         return Object.assign(new Book(), bookJson);

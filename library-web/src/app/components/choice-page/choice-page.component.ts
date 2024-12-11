@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
   selector: 'app-choice-page',
   imports: [ChoicesComponent],
   templateUrl: './choice-page.component.html',
-  styleUrls: ['./choice-page.component.css'] // Correction ici
+  styleUrls: ['./choice-page.component.css']
 })
 export class ChoicePageComponent {
   constructor(private router: Router) {}
   
+  // Fonctions de navigation
   navigateToSearchPage() {
     console.log('Navigating to search page');
     this.router.navigate(['/home/choice/search']);

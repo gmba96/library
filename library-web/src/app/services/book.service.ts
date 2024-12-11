@@ -126,6 +126,16 @@ export class BookService {
       map(booksJson => booksJson.map(bookJson => new Book().fromJson(bookJson)))
     );
   }
+  getByAuthorAndGenreAndYearAndRatingSup(author: string, genre: string, year: number, rating: number): Observable<Book[]> {
+    return this.http.get<IBook[]>(`${this.apiUrl}/author/${author}/genre/${genre}/year/${year}/ratingSup/${rating}`).pipe(
+      map(booksJson => booksJson.map(bookJson => new Book().fromJson(bookJson)))
+    );
+  }
+  getByAuthorAndGenreAndYearAndRatingInf(author: string, genre: string, year: number, rating: number): Observable<Book[]> {
+    return this.http.get<IBook[]>(`${this.apiUrl}/author/${author}/genre/${genre}/year/${year}/ratingInf/${rating}`).pipe(
+      map(booksJson => booksJson.map(bookJson => new Book().fromJson(bookJson)))
+    );
+  }
 
   // suppression d'un livre
   deleteBook(id: number): Observable<any> {

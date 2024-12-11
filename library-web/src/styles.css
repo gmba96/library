@@ -12,5 +12,13 @@ h1 {
     text-align: center;
     margin: 50px 50px 50px 50px;
 }
+
+h2 {
+    font-size: 3em;
+    color: #4a8e3d;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

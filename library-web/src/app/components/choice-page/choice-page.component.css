@@ -21,6 +21,8 @@ h1{
     animation: transitionIn 1.5s;
 }
 
+/*---------------------------------------------- Animation -------------------------*/
+
 @keyframes transitionIn {
     from {
         opacity: 0;
@@ -39,7 +41,7 @@ h2{
     animation: transitionIn 1s 0.5s forwards;
 }
 
-
+/* -------------------------------------- media queries ---------------------------*/
 @media (max-width: 900px) {
     .choice-page{
         display: flex;

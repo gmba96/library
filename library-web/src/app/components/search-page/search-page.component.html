@@ -1,6 +1,6 @@
 <div class = search-page *ngIf="books.length > 0; else noBooks">
     <h2>List of Books</h2>
-    <!-- formulaire de recherche -->
+<!----------------------formulaire de recherche ---------------------------------------->
     <div>
       <form  class = "search-page-form" >
         <div>
@@ -16,16 +16,13 @@
           <label for="author">Author:</label>
           <input type="text" id="author" name="author" [(ngModel)]="searchCriteria.author">
         </div>
-        <div>
-          <label for="genre">Genre:</label>
-          <input type="text" id="genre" name="genre" [(ngModel)]="searchCriteria.genre">
-        </div>
+        
 
         <div>
           <label for="year">Year:</label>
           <input type="number" id="year" name="year" [(ngModel)]="searchCriteria.year">
         </div>
-        <!-- ce champs rating avec une liste déroulante inf et sup -->
+<!------------------------------- ce champs rating avec une liste déroulante inf et sup ----------------------------->
         <div>
           <label for="rating">Rating:</label>
           <div class="select">
@@ -36,11 +33,17 @@
             </select>
           </div>
         </div>
+        <div>
+          <label for="genre">Genre:</label>
+          <input type="text" id="genre" name="genre" [(ngModel)]="searchCriteria.genre">
+        </div>
       </form>
     </div>
     
+    
 
-    <!-- les checkbox est le button chercher -->
+<!-------------------------------------------- les checkbox est le button chercher------------------------------------------>
+   
     <div class="order-by">
       <div class="checkbox-order-year">
         <label for="orderByYear">Order by year</label>
@@ -56,7 +59,8 @@
     </div>
 
 
-  <!-- la table de résultat -->
+<!---------------------------------------- la table de résultat ------------------------------------->
+  
   <div class="table-book">
     <table>
       <thead>
@@ -72,7 +76,8 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Boucle pour chaque livre -->
+<!-------------------------------------- Boucle pour chaque livre -------------------------------------------->
+        
         <tr *ngFor="let book of books">
           <td>{{ book.id }}</td>
           <td>
@@ -107,7 +112,8 @@
   </div>
 </div>
 
-<!-- Message si 0 livre -->
+<!------------------------------------ Message si 0 livre --------------------------------------------->
+
 <ng-template #noBooks>
   <p>No books available.</p>
   <div class="button-back">
