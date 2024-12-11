@@ -1,6 +1,27 @@
-# LibraryWeb
+# Documentation Technique
 
-Ce projet a été généré en utilisant [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+### Prérequis
+Node.js (version 14 ou supérieure)
+PostgreSQL
+
+## Architecture
+Le projet est divisé en deux parties principales :
+
+1) library-service : Un service backend construit avec Node.js et Express.js pour gérer les opérations CRUD sur les livres.
+2) library-web : Une application frontend construite avec Angular pour interagir avec le service backend et fournir une interface utilisateur.
+   
+## Technologies Utilisées
+Backend (library-service) :
+Node.js 
+Express.js
+PostgreSQL (via le module pg)
+
+Frontend (library-web) :
+Angular
+TypeScript
+HTML/CSS
+Chart.js (pour les visualisations)
+
 
 ## Serveur de développement
 
@@ -14,60 +35,68 @@ Une fois le serveur démarré, ouvrez votre navigateur et accédez à http://loc
 
 ## Structure du projet
 
+library-service/
+  ├── config/
+  │   └── db.js
+  ├── controller/
+  │   └── bookController.js
+  ├── dao/
+  │   └── bookDao.js
+  ├── routes/
+  │   └── bookRoutes.js
+  ├── service/
+  │   └── bookService.js
+  ├── server.js
+  └── package.json
+
 library-web/
-
-├── src/
-
-│   ├── app/
-
-│   │   ├── add-page/
-
-│   │   │   ├── add-page.component.html
-
-│   │   │   ├── add-page.component.ts
-
-│   │   │   └── add-page.component.css
-
-│   │   ├── search-page/
-
-│   │   │   ├── search-page.component.html
-
-│   │   │   ├── search-page.component.ts
-
-│   │   │   └── search-page.component.css
-
-│   │   ├── visualisation-page/
-
-│   │   │   ├── visualisation-page.component.html
-
-│   │   │   ├── visualisation-page.component.ts
-
-│   │   │   └── visualisation-page.component.css
-
-│   │   ├── app.component.html
-
-│   │   ├── app.component.ts
-
-│   │   └── app.component.css
-
-│   ├── assets/
-
-│   ├── environments/
-
-│   ├── index.html
-
-│   ├── main.ts
-
-│   └── [styles.css]
-
-├── angular.json
-
-├── [package.json]
-
-└── README.md
+  ├── src/
+  │   ├── app/
+  │   │   ├── components/
+  │   │   │   ├── search-page/
+  │   │   │   │   ├── search-page.component.ts
+  │   │   │   │   ├── search-page.component.html
+  │   │   │   │   └── search-page.component.css
+  │   │   │   ├── visualisation-page/
+  │   │   │   │   ├── visualisation-page.component.ts
+  │   │   │   │   ├── visualisation-page.component.html
+  │   │   │   │   └── visualisation-page.component.css
+  │   │   ├── services/
+  │   │   │   └── book.service.ts
+  │   │   ├── app.component.ts
+  │   │   ├── app.module.ts
+  │   ├── assets/
+  │   ├── index.html
+  │   ├── main.ts
+  │   ├── styles.css
+  ├── angular.json
+  ├── package.json
+  └── README.md
 
 
-## Fonctionnalités
-Ajout de livres : Ajoutez de nouveaux livres à la bibliothèque.
-Recherche de livres : Recherchez des livres par genre, année et note.
-Visualisation des données : Visualisez les données des livres sous forme de graphiques.
+
+# Guide Utilisateur
+
+### Accueil
+Lorsque vous accédez à l'application, vous êtes accueilli par une page d'accueil avec des options pour rechercher, ajouter et visualiser des livres.
+
+### Recherche de Livres
+Accédez à la page de recherche en cliquant sur "Chercher un livre".
+Remplissez les critères de recherche (ID, Titre, Auteur, Année, Note, Genre).
+Cliquez sur le bouton "Search" pour afficher les résultats.
+
+### Ajout de Livres
+Accédez à la page d'ajout en cliquant sur "Ajouter un livre".
+Remplissez les informations du livre (Titre, Auteur, Note, Année, Genre).
+Cliquez sur le bouton "Add" pour ajouter le livre à la base de données.
+
+### Visualisation des Livres
+Accédez à la page de visualisation en cliquant sur "Visualisation".
+Vous verrez des graphiques représentant les livres par année et par genre.
+
+### Gestion des Livres
+Dans la page de recherche, vous pouvez mettre à jour ou supprimer des livres en utilisant les boutons "Update" et "Delete" à côté de chaque livre dans la liste des résultats.
+
+### Navigation
+Utilisez les boutons de navigation pour revenir à la page d'accueil ou pour naviguer entre les différentes pages de l'application.
+
